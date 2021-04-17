@@ -16,10 +16,10 @@ provider "azurerm" {
 
 # Create resource group
 resource "azurerm_resource_group" "rg" {
-    name     = "rg-MyFirstTerraform"
+    name     = "rg-TerraformDev"
     location = "westus2"
     tags = {
-      "Environment" = "Terraform Demo"
+      "Environment" = "Terraform Dev"
     }
 }
 
@@ -36,8 +36,6 @@ resource "azurerm_subnet" "subnet" {
   name                 = "snet-dev-westus2-001"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  # changed to new sytax
-  #address_prefix       = "10.0.0.0/24"
   address_prefixes = [ "10.0.0.0/24" ]
 }
 
@@ -73,8 +71,6 @@ resource "azurerm_network_interface" "nic" {
   name                      = "nic-01-vmterraform-dev-001"
   location                  = "westus2"
   resource_group_name       = azurerm_resource_group.rg.name
-  # removed below line from original code as it was failing and added below dedicated resource block to associate NSG -> Subnet
-  # network_security_group_id = azurerm_network_security_group.nsg.id
 
   ip_configuration {
     name                          = "niccfg-vmterraform"
